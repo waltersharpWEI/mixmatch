@@ -35,7 +35,8 @@ flags.DEFINE_integer('report_kimg', 64, 'Report summary period in kibi-samples.'
 flags.DEFINE_integer('save_kimg', 64, 'Save checkpoint period in kibi-samples.')
 flags.DEFINE_integer('keep_ckpt', 50, 'Number of checkpoints to keep.')
 flags.DEFINE_string('eval_ckpt', '', 'Checkpoint to evaluate. If provided, do not do training, just do eval.')
-
+flags.DEFINE_float('target_loss',0.5, 'Target Loss to achieve')
+flags.DEFINE_float('target_accuracy',0.75, 'Target accuracy')
 
 class Model:
     def __init__(self, train_dir: str, dataset: data.DataSet, **kwargs):
@@ -146,6 +147,10 @@ class ClassifySemi(Model):
             self.eval_checkpoint(FLAGS.eval_ckpt)
             return
         batch = FLAGS.batch
+        target_loss = FLAGS.target_loss
+        print("Target loss : %.2f" % target_loss)
+        target_accuracy = FLAGS.target_accuracy
+        print("Target accuracy: %.2f" % target_accuracy)
         with self.graph.as_default():
             train_labeled = self.dataset.train_labeled.batch(batch).prefetch(16)
             train_labeled = train_labeled.make_one_shot_iterator().get_next()
@@ -236,6 +241,10 @@ class ClassifySemi(Model):
             accuracies.append((predicted.argmax(1) == labels).mean() * 100)
         self.train_print('kimg %-5d  accuracy train/valid/test  %.2f  %.2f  %.2f' %
                          tuple([self.tmp.step >> 10] + accuracies))
+        target_accuracy = FLAGS.target_accuracy
+        if accuracies[0] > target_accuracy:
+           print(self.tmp.step)
+           exit(0)
         return np.array(accuracies, 'f')
 
     def add_summaries(self, feed_extra=None, **kwargs):
@@ -243,7 +252,6 @@ class ClassifySemi(Model):
 
         def gen_stats():
             return self.eval_stats(feed_extra=feed_extra)
-
         accuracies = tf.py_func(gen_stats, [], tf.float32)
         tf.summary.scalar('accuracy/train_labeled', accuracies[0])
         tf.summary.scalar('accuracy/valid', accuracies[1])
