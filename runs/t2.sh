@@ -20,6 +20,6 @@ for seed in 1 2; do
 echo
 for size in 250 500 1000 2000 4000; do
     common_args="--train_dir experiments/compare --dataset=svhn_noextra.${seed}@${size}-1"
-    python distil1.py $common_args --wd=0.02 --smoothing=0.01 --consistency_weight=2 --target_accuracy=93.0
+    python distil1.py $common_args --wd=0.02 --smoothing=0.01 --consistency_weight=2 --target_accuracy=97.0
 done
 done
