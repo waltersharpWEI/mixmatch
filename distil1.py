@@ -44,70 +44,27 @@ class DataDistill(models.MultiModel):
         classifier_t1 = functools.partial(self.classifier, **kwargs)
         classifier_s = functools.partial(self.classifier, **kwargs)
         logits_x = classifier_s(x_in, training=True)
+        logits_y = classifier_s(y_in, training=True)
         post_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)  # Take only first call to update batch norm.
         logits_y1 = classifier(y_in, training=True)
         logits_y2 = classifier_t(y_in, training=True)
         logits_y3 = classifier_t1(y_in, training=True)
         # Get the pseudo-label loss
-        loss_pl_1 = tf.nn.sparse_softmax_cross_entropy_with_logits(
-            labels=tf.argmax(logits_y1, axis=-1), logits=logits_y1
-        )
-        # Masks denoting which data points have high-confidence predictions
-        greater_than_thresh = tf.reduce_any(
-            tf.greater(tf.nn.softmax(logits_y1), threshold),
-            axis=-1,
-            keepdims=True,
-        )
-        greater_than_thresh = tf.cast(greater_than_thresh, loss_pl_1.dtype)
-        # Only enforce the loss when the model is confident
-        loss_pl_1 *= greater_than_thresh
-        # Note that we also average over examples without confident outputs;
-        # this is consistent with the realistic evaluation codebase
-        loss_pl_1 = tf.reduce_mean(loss_pl_1)
-
-        # Get the pseudo-label loss
-        loss_pl_2 = tf.nn.sparse_softmax_cross_entropy_with_logits(
-            labels=tf.argmax(logits_y2, axis=-1), logits=logits_y2
-        )
-        # Masks denoting which data points have high-confidence predictions
-        greater_than_thresh = tf.reduce_any(
-            tf.greater(tf.nn.softmax(logits_y2), threshold),
-            axis=-1,
-            keepdims=True,
-        )
-        greater_than_thresh = tf.cast(greater_than_thresh, loss_pl_2.dtype)
-        # Only enforce the loss when the model is confident
-        loss_pl_2 *= greater_than_thresh
-        # Note that we also average over examples without confident outputs;
-        # this is consistent with the realistic evaluation codebase
-        loss_pl_2 = tf.reduce_mean(loss_pl_2)
-
-        loss_pl_3 = tf.nn.sparse_softmax_cross_entropy_with_logits(
-            labels=tf.argmax(logits_y3, axis=-1), logits=logits_y3
-        )
-        greater_than_thresh = tf.reduce_any(
-            tf.greater(tf.nn.softmax(logits_y3), threshold),
-            axis=-1,
-            keepdims=True,
-        )
-        greater_than_thresh = tf.cast(greater_than_thresh, loss_pl_3.dtype)
-        loss_pl_3 *= greater_than_thresh
-        loss_pl_3 = tf.reduce_mean(loss_pl_3)
-
-        loss_pl = tf.reduce_mean([loss_pl_2,loss_pl_1,loss_pl_3])
-
-        loss = tf.nn.softmax_cross_entropy_with_logits_v2(labels=l, logits=logits_x)
+        labels_y1 = tf.one_hot(tf.argmax(logits_y1, axis=-1), self.nclass)
+        labels_y2 = tf.one_hot(tf.argmax(logits_y2, axis=-1), self.nclass)
+        labels_y3 = tf.one_hot(tf.argmax(logits_y3, axis=-1), self.nclass)
+        #labels_y = tf.reduce_mean([labels_y1,labels_y2,labels_y3])
+        #labels_y = tf.reduce_all([labels_y1,labels_y2,labels_y3])
+        labels_y = labels_y1
+        l1 = tf.concat([l,labels_y],0)
+        logits_x1 = tf.concat([logits_x,logits_y],0)
+        print(l1)
+        print(logits_x1)
+        loss = tf.nn.softmax_cross_entropy_with_logits_v2(labels=l1, logits=logits_x1)
         loss = tf.reduce_mean(loss)
         tf.summary.scalar('losses/xe', loss)
-        tf.summary.scalar('losses/pl', loss_pl)
 
-        ema = tf.train.ExponentialMovingAverage(decay=ema)
-        ema_op = ema.apply(utils.model_vars())
-        ema_getter = functools.partial(utils.getter_ema, ema)
-        post_ops.append(ema_op)
-        post_ops.extend([tf.assign(v, v * (1 - wd)) for v in utils.model_vars('classify') if 'kernel' in v.name])
-
-        train_op = tf.train.AdamOptimizer(lr).minimize(loss + loss_pl * warmup * consistency_weight,
+        train_op = tf.train.AdamOptimizer(lr).minimize(loss,
                                                        colocate_gradients_with_ops=True)
         with tf.control_dependencies([train_op]):
             train_op = tf.group(*post_ops)
@@ -121,7 +78,7 @@ class DataDistill(models.MultiModel):
         return EasyDict(
             x=x_in, y=y_in, label=l_in, train_op=train_op, tune_op=train_bn,
             classify_raw=tf.nn.softmax(classifier(x_in, training=False)),  # No EMA, for debugging.
-            classify_op=tf.nn.softmax(classifier(x_in, getter=ema_getter, training=False)))
+            classify_op=tf.nn.softmax(classifier(x_in, training=False)))
 
 
 def main(argv):
