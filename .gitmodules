@@ -1,0 +1,3 @@
+[submodule "logparse"]
+	path = logparse
+	url = git@github.com:waltersharpWEI/logparse.git
