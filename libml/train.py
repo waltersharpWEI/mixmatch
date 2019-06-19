@@ -16,6 +16,7 @@
 import json
 import os.path
 import shutil
+import time
 
 from absl import flags
 from easydict import EasyDict
@@ -37,7 +38,8 @@ flags.DEFINE_integer('keep_ckpt', 50, 'Number of checkpoints to keep.')
 flags.DEFINE_string('eval_ckpt', '', 'Checkpoint to evaluate. If provided, do not do training, just do eval.')
 flags.DEFINE_float('target_loss',0.5, 'Target Loss to achieve')
 flags.DEFINE_float('target_accuracy',0.75, 'Target accuracy')
-
+flags.DEFINE_integer('time_budget', 100, 'Budget of time')
+start = 0
 class Model:
     def __init__(self, train_dir: str, dataset: data.DataSet, **kwargs):
         self.train_dir = os.path.join(train_dir, self.experiment_name(**kwargs))
@@ -143,6 +145,7 @@ class ClassifySemi(Model):
                                                      self.ops.label: x['label']})[1]
 
     def train(self, train_nimg, report_nimg):
+        start = time.clock()
         if FLAGS.eval_ckpt:
             self.eval_checkpoint(FLAGS.eval_ckpt)
             return
@@ -241,10 +244,16 @@ class ClassifySemi(Model):
             accuracies.append((predicted.argmax(1) == labels).mean() * 100)
         self.train_print('kimg %-5d  accuracy train/valid/test  %.2f  %.2f  %.2f' %
                          tuple([self.tmp.step >> 10] + accuracies))
-        target_accuracy = FLAGS.target_accuracy
-        if accuracies[0] > target_accuracy:
-           print(self.tmp.step)
+        
+        time_budget = FLAGS.time_budget
+        elapsed = (time.clock() - start)
+        if elapsed >= time_budget:
+           print("Time elapsed %d" % elapsed)
            exit(0)
+#        target_accuracy = FLAGS.target_accuracy
+#        if accuracies[0] > target_accuracy:
+#           print(self.tmp.step)
+#           exit(0)
         return np.array(accuracies, 'f')
 
     def add_summaries(self, feed_extra=None, **kwargs):

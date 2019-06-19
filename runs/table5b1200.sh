@@ -19,6 +19,6 @@ for seed in 1 2 3 4 5; do
 echo
 for size in 250 500 1000 2000 4000; do
     common_args="--train_dir experiments/compare --dataset=cifar10.${seed}@${size}-1"
-    python distil1.py $common_args --wd=0.02 --smoothing=0.01 --consistency_weight=1 --target_accuracy=0.97
+    python distil1.py $common_args --wd=0.02 --smoothing=0.01 --consistency_weight=1 --time_budget=1200
 done
 done

@@ -1,5 +1,5 @@
 while true
 do
-  cat exp2.log
+  cat $1
   sleep 5
 done
