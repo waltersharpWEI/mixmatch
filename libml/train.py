@@ -38,7 +38,7 @@ flags.DEFINE_integer('keep_ckpt', 50, 'Number of checkpoints to keep.')
 flags.DEFINE_string('eval_ckpt', '', 'Checkpoint to evaluate. If provided, do not do training, just do eval.')
 flags.DEFINE_float('target_loss',0.5, 'Target Loss to achieve')
 flags.DEFINE_float('target_accuracy',0.75, 'Target accuracy')
-flags.DEFINE_integer('time_budget', 100, 'Budget of time')
+flags.DEFINE_integer('time_budget', 0, 'Budget of time')
 start = 0
 class Model:
     def __init__(self, train_dir: str, dataset: data.DataSet, **kwargs):
@@ -245,15 +245,17 @@ class ClassifySemi(Model):
         self.train_print('kimg %-5d  accuracy train/valid/test  %.2f  %.2f  %.2f' %
                          tuple([self.tmp.step >> 10] + accuracies))
         
-        time_budget = FLAGS.time_budget
+#        time_budget = FLAGS.time_budget
         elapsed = (time.clock() - start)
-        if elapsed >= time_budget:
-           print("Time elapsed %d" % elapsed)
-           exit(0)
-#        target_accuracy = FLAGS.target_accuracy
-#        if accuracies[0] > target_accuracy:
-#           print(self.tmp.step)
+#        if elapsed >= time_budget:
+#           print("Time elapsed %d" % elapsed)
 #           exit(0)
+        target_accuracy = FLAGS.target_accuracy
+        if float(accuracies[2]) >= float(target_accuracy * 100.0):
+           print(self.tmp.step)
+           print(elapsed)
+           print(accuracies[2], target_accuracy)
+           exit(0)
         return np.array(accuracies, 'f')
 
     def add_summaries(self, feed_extra=None, **kwargs):
