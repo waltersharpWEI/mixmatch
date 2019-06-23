@@ -1,0 +1,96 @@
+Dataset                          cifar10.1@4000-1
+sigma=32
+iter=131072
+time=93.887855
+Dataset                          cifar10.1@4000-1
+sigma=64
+iter=131072
+time=95.359425
+Dataset                          cifar10.1@4000-1
+sigma=128
+iter=131072
+time=97.442101
+Dataset                          cifar10.1@2000-1
+sigma=32
+iter=131072
+time=312.632036
+Dataset                          cifar10.1@2000-1
+sigma=64
+iter=131072
+time=93.842907
+Dataset                          cifar10.1@2000-1
+sigma=128
+iter=131072
+time=95.310794
+Dataset                          cifar10.2@4000-1
+sigma=32
+iter=65536
+time=207.876265
+Dataset                          cifar10.2@4000-1
+sigma=64
+iter=65536
+time=94.978145
+Dataset                          cifar10.2@4000-1
+sigma=128
+iter=131072
+time=209.39879
+Dataset                          cifar10.2@2000-1
+sigma=32
+iter=65536
+time=205.534168
+Dataset                          cifar10.2@2000-1
+sigma=64
+iter=131072
+time=204.56583
+Dataset                          cifar10.2@2000-1
+sigma=128
+iter=131072
+time=95.704106
+Dataset                          cifar10.1@4000-1
+sigma=32
+iter=131072
+time=93.632827
+Dataset                          cifar10.1@4000-1
+sigma=64
+iter=131072
+time=94.464101
+Dataset                          cifar10.1@4000-1
+sigma=128
+iter=131072
+time=97.67552
+Dataset                          cifar10.1@2000-1
+sigma=32
+iter=131072
+time=91.336401
+Dataset                          cifar10.1@2000-1
+sigma=64
+iter=131072
+time=92.791375
+Dataset                          cifar10.1@2000-1
+sigma=128
+iter=131072
+time=94.236898
+Dataset                          cifar10.2@4000-1
+sigma=32
+iter=131072
+time=94.151736
+Dataset                          cifar10.2@4000-1
+sigma=64
+iter=131072
+time=95.628663
+Dataset                          cifar10.2@4000-1
+sigma=128
+iter=131072
+time=96.981147
+Dataset                          cifar10.2@2000-1
+sigma=32
+iter=131072
+time=91.620527
+Dataset                          cifar10.2@2000-1
+sigma=64
+iter=131072
+time=93.073782
+Dataset                          cifar10.2@2000-1
+sigma=128
+iter=131072
+time=95.126791

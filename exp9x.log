@@ -1,0 +1,80 @@
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=1
+iter=131072
+time=314.969573
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=4
+iter=131072
+time=93.204949
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=8
+iter=131072
+time=92.48922
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=16
+iter=131072
+time=93.091031
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=32
+iter=131072
+time=93.471719
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=64
+iter=131072
+time=94.289994
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=128
+iter=131072
+time=97.072967
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.40
+sigma=256
+iter=131072
+time=102.937229
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=1
+iter=131072
+time=92.139606
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=4
+iter=131072
+time=92.906191
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=8
+iter=131072
+time=92.101239
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=16
+iter=131072
+time=93.660955
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=32
+iter=131072
+time=94.068481
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=64
+iter=131072
+time=95.323014
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=128
+iter=131072
+time=97.835396
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.45
+sigma=256
+iter=131072
+time=103.412559

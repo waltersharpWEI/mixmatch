@@ -39,6 +39,7 @@ flags.DEFINE_string('eval_ckpt', '', 'Checkpoint to evaluate. If provided, do no
 flags.DEFINE_float('target_loss',0.5, 'Target Loss to achieve')
 flags.DEFINE_float('target_accuracy',0.75, 'Target accuracy')
 flags.DEFINE_integer('time_budget', 0, 'Budget of time')
+flags.DEFINE_integer('sigma', 32, 'The number of unlabeled data in one batch')
 start = 0
 class Model:
     def __init__(self, train_dir: str, dataset: data.DataSet, **kwargs):
@@ -157,7 +158,9 @@ class ClassifySemi(Model):
         with self.graph.as_default():
             train_labeled = self.dataset.train_labeled.batch(batch).prefetch(16)
             train_labeled = train_labeled.make_one_shot_iterator().get_next()
-            train_unlabeled = self.dataset.train_unlabeled.batch(batch).prefetch(16)
+            sigma = FLAGS.sigma
+            print("Sigma: %d" % sigma)
+            train_unlabeled = self.dataset.train_unlabeled.batch(batch).prefetch(sigma)
             train_unlabeled = train_unlabeled.make_one_shot_iterator().get_next()
             scaffold = tf.train.Scaffold(saver=tf.train.Saver(max_to_keep=FLAGS.keep_ckpt,
                                                               pad_step_number=10))
@@ -186,7 +189,9 @@ class ClassifySemi(Model):
         with self.graph.as_default():
             train_labeled = self.dataset.train_labeled.batch(batch).prefetch(16)
             train_labeled = train_labeled.make_one_shot_iterator().get_next()
-            train_unlabeled = self.dataset.train_unlabeled.batch(batch).prefetch(16)
+            sigma = FLAGS.sigma
+            train_unlabeled = self.dataset.train_unlabeled.batch(batch).prefetch(sigma)
+            print("Sigma: %d" % sigma)
             train_unlabeled = train_unlabeled.make_one_shot_iterator().get_next()
 
             for _ in trange(0, train_nimg, batch, leave=False, unit='img', unit_scale=batch, desc='Tuning'):

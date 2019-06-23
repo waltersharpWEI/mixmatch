@@ -15,11 +15,11 @@
 # limitations under the License.
 
 echo "# CIFAR10 hyper-parameters for all methods under comparison"
-for acc in 0.40 0.45; do
+for acc in 0.59 0.60 0.65 0.67; do
 echo "##Target acc $acc ##"
-for seed in 1 2; do
-for size in 4000 2000; do
-for sigma in 32 64 128; do
+for seed in 1; do
+for size in 4000; do
+for sigma in 1 4 8 16 32 64 128 256; do
     common_args="--train_dir experiments/compare --dataset=cifar10.${seed}@${size}-1"
     python distil2.py $common_args --wd=0.02 --smoothing=0.01 --consistency_weight=1 --sigma=$sigma --target_accuracy=$acc
 done
