@@ -1,0 +1,228 @@
+##Time Budget 60 ##
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=1
+iter=524288
+time=90.636882
+accuracy=69.45
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=4
+iter=524288
+time=90.649619
+accuracy=69.6
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=8
+iter=524288
+time=91.021289
+accuracy=69.56
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=16
+iter=524288
+time=91.966228
+accuracy=69.62
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=32
+iter=524288
+time=91.097083
+accuracy=69.36
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=64
+iter=524288
+time=93.352532
+accuracy=69.45
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=128
+iter=524288
+time=95.570125
+accuracy=69.34
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=60
+sigma=256
+iter=524288
+time=100.258738
+accuracy=69.39999999999999
+##Time Budget 600 ##
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=1
+iter=851968
+time=632.082432
+accuracy=71.88
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=4
+iter=1179648
+time=631.308977
+accuracy=67.89
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=8
+iter=1507328
+time=636.511514
+accuracy=71.63000000000001
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=16
+iter=1835008
+time=633.789035
+accuracy=67.86
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=32
+iter=2162688
+time=623.511727
+accuracy=69.03
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=64
+iter=2490368
+time=631.49661
+accuracy=59.41
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=128
+iter=2818048
+time=630.624288
+accuracy=65.31
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=600
+sigma=256
+iter=3145728
+time=639.004687
+accuracy=66.01
+##Time Budget 1200 ##
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=1
+iter=3866624
+time=1281.313295
+accuracy=69.44
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=4
+iter=4587520
+time=1272.169944
+accuracy=68.99
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=8
+iter=5308416
+time=1265.701805
+accuracy=51.910000000000004
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=16
+iter=6029312
+time=1296.041805
+accuracy=65.27
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=32
+iter=6750208
+time=1272.357945
+accuracy=68.28999999999999
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=64
+iter=7471104
+time=1275.231499
+accuracy=57.60999999999999
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=128
+iter=8192000
+time=1275.642278
+accuracy=70.50999999999999
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=1200
+sigma=256
+iter=8912896
+time=1308.416393
+accuracy=68.36
+##Time Budget 2400 ##
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=1
+iter=10354688
+time=2444.295013
+accuracy=64.24
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=4
+iter=11796480
+time=2471.781035
+accuracy=67.67
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=8
+iter=13238272
+time=2479.459514
+accuracy=69.94
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=16
+iter=14680064
+time=2448.190116
+accuracy=62.470000000000006
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=32
+iter=16121856
+time=2455.235372
+accuracy=64.21
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=64
+iter=17563648
+time=2456.024121
+accuracy=68.43
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=128
+iter=19005440
+time=2443.360194
+accuracy=66.81
+Dataset                          cifar10.1@4000-1
+targetAccuracy=0.0
+timeBudget=2400
+sigma=256
+iter=20447232
+time=2445.118205
+accuracy=62.32

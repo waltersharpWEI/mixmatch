@@ -26,7 +26,7 @@ from libml import utils, data, models
 import tensorflow as tf
 
 FLAGS = flags.FLAGS
-
+flags.DEFINE_float('target_loss',None, 'Target Loss to achieve')
 
 class DataDistill(models.MultiModel):
 
@@ -38,6 +38,7 @@ class DataDistill(models.MultiModel):
         l = tf.one_hot(l_in, self.nclass)
         wd *= lr
         warmup = tf.clip_by_value(tf.to_float(self.step) / (warmup_pos * (FLAGS.train_kimg << 10)), 0, 1)
+        target_loss = FLAGS.target_loss
 
         classifier = functools.partial(self.classifier, **kwargs)
         classifier_t = functools.partial(self.classifier, **kwargs)
@@ -85,6 +86,9 @@ class DataDistill(models.MultiModel):
         print(logits_x1)
         loss = tf.nn.softmax_cross_entropy_with_logits_v2(labels=l1, logits=logits_x1)
         loss = tf.reduce_mean(loss)
+        if (target_loss != None and loss < target_loss):
+            print("TODO:target_loss logs not yet implemented!")
+            exit(0)
         tf.summary.scalar('losses/xe', loss)
 
         train_op = tf.train.AdamOptimizer(lr).minimize(loss,

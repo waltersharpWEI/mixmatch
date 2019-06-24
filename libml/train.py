@@ -36,9 +36,8 @@ flags.DEFINE_integer('report_kimg', 64, 'Report summary period in kibi-samples.'
 flags.DEFINE_integer('save_kimg', 64, 'Save checkpoint period in kibi-samples.')
 flags.DEFINE_integer('keep_ckpt', 50, 'Number of checkpoints to keep.')
 flags.DEFINE_string('eval_ckpt', '', 'Checkpoint to evaluate. If provided, do not do training, just do eval.')
-flags.DEFINE_float('target_loss',0.5, 'Target Loss to achieve')
-flags.DEFINE_float('target_accuracy',0.75, 'Target accuracy')
-flags.DEFINE_integer('time_budget', 0, 'Budget of time')
+flags.DEFINE_float('target_accuracy',None, 'Target accuracy')
+flags.DEFINE_integer('time_budget', None, 'Budget of time')
 flags.DEFINE_integer('sigma', 32, 'The number of unlabeled data in one batch')
 start = 0
 class Model:
@@ -151,10 +150,16 @@ class ClassifySemi(Model):
             self.eval_checkpoint(FLAGS.eval_ckpt)
             return
         batch = FLAGS.batch
-        target_loss = FLAGS.target_loss
-        print("Target loss : %.2f" % target_loss)
+#        target_loss = FLAGS.target_loss
+#        if target_loss != None:
+#          print("Target loss : %.2f" % target_loss)
+#        else: 
+        print("Target loss : 0.0")
         target_accuracy = FLAGS.target_accuracy
-        print("Target accuracy: %.2f" % target_accuracy)
+        if target_accuracy != None:
+          print("Target accuracy: %.2f" % target_accuracy)
+        else:
+          print("Target accuracy: 0.0")
         with self.graph.as_default():
             train_labeled = self.dataset.train_labeled.batch(batch).prefetch(16)
             train_labeled = train_labeled.make_one_shot_iterator().get_next()
@@ -199,6 +204,7 @@ class ClassifySemi(Model):
                 self.session.run([self.ops.tune_op], feed_dict={self.ops.x: x['image'],
                                                                 self.ops.y: y['image'],
                                                                 self.ops.label: x['label']})
+
 
     def eval_checkpoint(self, ckpt=None):
         self.eval_mode(ckpt)
@@ -250,17 +256,22 @@ class ClassifySemi(Model):
         self.train_print('kimg %-5d  accuracy train/valid/test  %.2f  %.2f  %.2f' %
                          tuple([self.tmp.step >> 10] + accuracies))
         
-#        time_budget = FLAGS.time_budget
+        time_budget = FLAGS.time_budget       
         elapsed = (time.clock() - start)
-#        if elapsed >= time_budget:
-#           print("Time elapsed %d" % elapsed)
-#           exit(0)
+        if time_budget != None:
+            if elapsed >= time_budget:
+               # print("Time elapsed %d" % elapsed)
+                print(self.tmp.step)
+                print(elapsed)
+                print(accuracies[2])
+                exit(0)
         target_accuracy = FLAGS.target_accuracy
-        if float(accuracies[2]) >= float(target_accuracy * 100.0):
-           print(self.tmp.step)
-           print(elapsed)
-           print(accuracies[2], target_accuracy)
-           exit(0)
+        if target_accuracy != None:
+            if float(accuracies[2]) >= float(target_accuracy * 100.0):
+               print(self.tmp.step)
+               print(elapsed)
+               print(accuracies[2], target_accuracy)
+               exit(0)
         return np.array(accuracies, 'f')
 
     def add_summaries(self, feed_extra=None, **kwargs):
